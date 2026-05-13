@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { Home } from './components/Home';
 import { Assignments } from './components/Assignments';
+import { AssignmentDetail } from './components/AssignmentDetail';
 import { Footer } from './components/Footer';
 
 export default function App() {
@@ -19,6 +20,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/assignments" element={<Assignments />} />
+            <Route path="/assignments/:id" element={<AssignmentDetail />} />
           </Routes>
         </main>
         <Footer />

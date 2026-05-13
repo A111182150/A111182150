@@ -1,122 +1,149 @@
-import { ExternalLink, Video, Box, Presentation, FileText } from 'lucide-react';
-import { motion } from 'motion/react';
-
-const assignments = [
-  {
-    id: 1,
-    title: '3月30號 製作A版虛擬/計畫旅遊影片',
-    icon: Video,
-    description: '使用AI工具生成的虛擬旅遊計畫影片',
-    links: [
-      { name: '影片 1', url: 'https://hailuoai.video/zh-Hant/share/ai-video/Vj0pqDWm98le?source-scene=shared&source-media=shared_link' },
-      { name: '影片 2', url: 'https://www.mindvideo.ai/zh-TW/v/F1FTZ/?utm_source=share' },
-      { name: '影片 3', url: 'https://hailuoai.video/zh-Hant/share/ai-video/JpRDnbe7Zkz9?source-scene=shared&source-media=shared_link' },
-      { name: '影片 4', url: 'https://hailuoai.video/zh-Hant/share/ai-video/GpnRJvz9Eq4E?source-scene=shared&source-media=shared_link' },
-    ],
-  },
-  {
-    id: 2,
-    title: '3D公仔個人及其他攣生兄弟',
-    icon: Box,
-    description: '使用 Tripo3D 製作的個人與攣生兄弟 3D 模型',
-    links: [
-      { name: '個人公仔', url: 'https://studio.tripo3d.ai/3d-model/b8af5081-c0ec-40d2-a58b-a26d51c537c0?invite_code=JMQKOF' },
-      { name: '攣生兄弟 1', url: 'https://studio.tripo3d.ai/3d-model/711043e6-1a58-4a55-af4a-17079393ad51?invite_code=JMQKOF' },
-      { name: '攣生兄弟 2', url: 'https://studio.tripo3d.ai/3d-model/db973071-1f96-4b0a-a099-9c9a168a44c5?invite_code=JMQKOF' },
-    ],
-  },
-  {
-    id: 3,
-    title: 'AI GAMMA簡報',
-    icon: Presentation,
-    description: '使用 Gamma app 製作的 AI 簡報',
-    links: [
-      { name: '觀看簡報', url: 'https://gamma.app/docs/-e9nmbeq95oegv4w' },
-    ],
-  },
-  {
-    id: 4,
-    title: 'NotebookAI簡報: 2026 東京×北海道 雙城深度自由行',
-    icon: FileText,
-    description: '由 NotebookLM 及 AI 工具整理生成的日本初訪情侶質感旅遊藍圖，涵蓋交通規劃、住宿建議與美學穿搭',
-    links: [
-      { name: '開啟 PDF 簡報', url: '/presentation.pdf' }
-    ],
-  },
-];
+import { assignments } from '../data/assignments';
+import { motion, AnimatePresence } from 'motion/react';
+import { useState } from 'react';
+import { ExternalLink, ChevronRight } from 'lucide-react';
 
 export function Assignments() {
+  const [selectedId, setSelectedId] = useState(assignments[0].id);
+  const selectedAssignment = assignments.find(a => a.id === selectedId) || assignments[0];
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="max-w-3xl mx-auto"
+      className="max-w-5xl mx-auto flex flex-col space-y-8"
     >
-      <div className="mb-12 border-b border-[#00d1ff]/20 pb-6">
-        <h1 className="text-[10px] sm:text-xs tracking-[0.4em] text-accent uppercase mb-2 font-mono">Assignments / 課程作業展演</h1>
-        <p className="mt-2 text-sm text-[#E0E6ED]/70 max-w-2xl font-light leading-relaxed">
-          資訊軟體應用課程的實作成果，運用 AI 工具結合創新思維完成的任務。
-        </p>
+      <div className="border-b border-[#00d1ff]/20 pb-4">
+        <h1 className="text-[10px] tracking-[0.4em] text-accent uppercase mb-2 font-mono">Assignments / 課程作業展演</h1>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {assignments.map((assignment, index) => {
+      {/* 5 Buttons Row */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+        {assignments.map((assignment) => {
           const Icon = assignment.icon;
+          const isActive = selectedId === assignment.id;
           return (
-            <motion.div
+            <button
               key={assignment.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="card-border rounded-sm flex flex-col group transition-colors hover:border-[#00D1FF]/50"
+              onClick={() => setSelectedId(assignment.id)}
+              className={`
+                relative flex flex-col items-center justify-center p-4 rounded-sm border transition-all duration-300
+                ${isActive 
+                  ? 'bg-accent/10 border-accent text-accent shadow-[0_0_15px_rgba(0,209,255,0.1)]' 
+                  : 'card-border border-[#E0E6ED]/10 text-[#E0E6ED]/40 hover:border-accent/40 hover:text-[#E0E6ED]/80'
+                }
+              `}
             >
-              <div className="p-6 sm:p-8 flex-grow flex flex-col">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="p-2 bg-[#00D1FF]/10 text-accent rounded-sm border border-[#00D1FF]/20 group-hover:bg-accent group-hover:text-[#05070A] transition-colors">
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] text-accent font-mono mb-1 tracking-widest">#0{assignment.id}</p>
-                    <h2 className="text-sm font-bold text-white tracking-widest">{assignment.title}</h2>
-                    <p className="text-[#E0E6ED]/60 text-xs mt-2 font-light">{assignment.description}</p>
-                  </div>
-                </div>
+              <Icon className={`w-5 h-5 mb-2 transition-transform ${isActive ? 'scale-110' : ''}`} />
+              <span className="text-[11px] sm:text-xs font-bold tracking-widest text-center uppercase font-mono line-clamp-1">
+                {assignment.shortTitle}
+              </span>
+              {isActive && (
+                <motion.div
+                  layoutId="active-tab"
+                  className="absolute -bottom-[1px] left-0 right-0 h-[2px] bg-accent"
+                />
+              )}
+            </button>
+          );
+        })}
+      </div>
 
-                {assignment.links.length > 0 && (
-                  <div className="mt-auto pt-6 flex flex-wrap gap-2">
-                    {assignment.links.map((link, i) => (
-                      <a
-                        key={i}
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] font-mono tracking-widest text-[#00D1FF] bg-[#00D1FF]/5 
-                                 hover:bg-[#00D1FF] hover:text-[#05070A] border border-[#00D1FF]/20 
-                                 rounded-sm transition-all"
-                      >
-                        {link.name}
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
+      {/* Dynamic Content Area */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={selectedId}
+          initial={{ opacity: 0, x: 10 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -10 }}
+          transition={{ duration: 0.3 }}
+          className="grid lg:grid-cols-3 gap-8 pt-4"
+        >
+          <div className="lg:col-span-2 space-y-6">
+            <h2 className="text-xl font-bold text-white tracking-widest flex items-center gap-2 leading-tight">
+              <ChevronRight className="w-5 h-5 text-accent shrink-0" />
+              {selectedAssignment.title}
+            </h2>
+
+            {selectedAssignment.embedUrl ? (
+              <div className="aspect-video w-full overflow-hidden border border-[#00d1ff]/20 rounded-sm bg-black/20">
+                {selectedAssignment.embedUrl.endsWith('.png') || selectedAssignment.embedUrl.endsWith('.jpg') || selectedAssignment.embedUrl.endsWith('.JPG') ? (
+                  <img 
+                    src={selectedAssignment.embedUrl} 
+                    alt={selectedAssignment.title}
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <iframe
+                    src={selectedAssignment.embedUrl}
+                    className="w-full h-full border-none"
+                    allow="autoplay"
+                  ></iframe>
+                )}
+              </div>
+            ) : (
+              <div className="aspect-video w-full flex flex-col items-center justify-center border border-[#00d1ff]/20 rounded-sm bg-black/10">
+                 <selectedAssignment.icon className="w-12 h-12 text-[#00d1ff]/10 mb-4" />
+                 <p className="text-[10px] text-[#E0E6ED]/20 font-mono tracking-widest uppercase text-center px-8">
+                   No inline preview available for this item
+                 </p>
+              </div>
+            )}
+
+            {selectedAssignment.longDescription && (
+              <section className="card-border p-6 rounded-sm bg-accent/[0.02]">
+                <p className="text-xs leading-relaxed text-[#E0E6ED]/80 font-light italic">
+                  {selectedAssignment.longDescription}
+                </p>
+                {selectedAssignment.tags && (
+                  <div className="mt-4 flex gap-2 text-[9px] text-accent font-mono uppercase tracking-widest">
+                    {selectedAssignment.tags.map(tag => (
+                      <span key={tag} className="px-2 py-1 border border-accent/20 rounded-sm">{tag}</span>
                     ))}
                   </div>
                 )}
-                {assignment.id === 4 && (
-                  <div className="mt-6 p-4 bg-black/40 rounded-sm border border-[#00d1ff]/10">
-                    <p className="text-[11px] text-[#E0E6ED] leading-relaxed mb-4 font-light opacity-80">
-                      這是一份高度客製化的旅遊企劃，探討「雙重節奏的浪漫」，從東京的「當代前衛與感官極致」轉換至北海道的「自然純粹與情感沉澱」。包括優雅應對 2026 航空電力新制和退稅流程、交通戰略矩陣分析、以及頂級燒肉與私人溫泉的極致饗宴。
-                    </p>
-                    <div className="flex gap-2 text-[9px] text-accent font-mono uppercase tracking-widest">
-                      <span className="px-2 py-1 border border-accent/30 rounded-sm">行程規劃</span>
-                      <span className="px-2 py-1 border border-accent/30 rounded-sm">情侶旅遊</span>
-                      <span className="px-2 py-1 border border-accent/30 rounded-sm">質感美學</span>
-                    </div>
-                  </div>
-                )}
+              </section>
+            )}
+          </div>
+
+          <div className="space-y-6">
+            <section className="card-border p-5 rounded-sm">
+              <h3 className="text-[10px] font-bold text-accent mb-3 tracking-widest uppercase border-b border-[#00d1ff]/20 pb-1">
+                Context / 簡介
+              </h3>
+              <p className="text-[11px] leading-relaxed text-[#E0E6ED]/60 font-light">
+                {selectedAssignment.description}
+              </p>
+            </section>
+
+            <section className="card-border p-5 rounded-sm">
+              <h3 className="text-[10px] font-bold text-accent mb-3 tracking-widest uppercase border-b border-[#00d1ff]/20 pb-1">
+                Links / 外連資產
+              </h3>
+              <div className="flex flex-col gap-2">
+                {selectedAssignment.links.map((link, i) => (
+                  <a
+                    key={i}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex justify-between items-center p-2.5 text-[10px] font-mono tracking-widest text-accent bg-accent/5 hover:bg-accent hover:text-[#05070A] border border-accent/10 rounded-sm transition-all"
+                  >
+                    {link.name.toUpperCase()}
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                ))}
               </div>
-            </motion.div>
-          );
-        })}
+            </section>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      <div className="mt-16 card-border p-6 rounded-sm bg-accent/5 border-dashed border-accent/20">
+         <p className="text-center text-[10px] font-mono tracking-widest text-accent/60 italic uppercase">
+           All content is curated for navigational software application research
+         </p>
       </div>
     </motion.div>
   );
