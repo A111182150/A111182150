@@ -2,6 +2,7 @@ import { assignments } from '../data/assignments';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
 import { ExternalLink, ChevronRight } from 'lucide-react';
+import { getPublicAssetPath } from '../lib/utils';
 
 export function Assignments() {
   const [selectedId, setSelectedId] = useState(assignments[0].id);
@@ -70,7 +71,7 @@ export function Assignments() {
               <div className="aspect-video w-full overflow-hidden border border-[#00d1ff]/20 rounded-sm bg-black/20">
                 {selectedAssignment.embedUrl.endsWith('.png') || selectedAssignment.embedUrl.endsWith('.jpg') || selectedAssignment.embedUrl.endsWith('.JPG') ? (
                   <img 
-                    src={selectedAssignment.embedUrl} 
+                    src={getPublicAssetPath(selectedAssignment.embedUrl)} 
                     alt={selectedAssignment.title}
                     className="w-full h-full object-contain"
                   />

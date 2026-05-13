@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { assignments } from '../data/assignments';
 import { motion } from 'motion/react';
 import { ExternalLink, ChevronLeft } from 'lucide-react';
+import { getPublicAssetPath } from '../lib/utils';
 
 export function AssignmentDetail() {
   const { id } = useParams();
@@ -53,11 +54,19 @@ export function AssignmentDetail() {
         <div className="lg:col-span-2 space-y-8">
           {assignment.embedUrl ? (
             <div className="aspect-video w-full overflow-hidden border border-[#00d1ff]/20 rounded-sm bg-black/20">
-              <iframe
-                src={assignment.embedUrl}
-                className="w-full h-full"
-                allow="autoplay"
-              ></iframe>
+              {assignment.embedUrl.endsWith('.png') || assignment.embedUrl.endsWith('.jpg') || assignment.embedUrl.endsWith('.JPG') ? (
+                <img 
+                  src={getPublicAssetPath(assignment.embedUrl)} 
+                  alt={assignment.title}
+                  className="w-full h-full object-contain"
+                />
+              ) : (
+                <iframe
+                  src={assignment.embedUrl}
+                  className="w-full h-full border-none"
+                  allow="autoplay"
+                ></iframe>
+              )}
             </div>
           ) : (
             <div className="aspect-video w-full flex items-center justify-center border border-[#00d1ff]/20 rounded-sm bg-black/10">
