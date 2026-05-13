@@ -1,4 +1,5 @@
 import { Video, Box, Presentation, FileText, LucideIcon } from 'lucide-react';
+import twinStarsImg from '../assets/twin_stars.png';
 
 export interface AssignmentLink {
   name: string;
@@ -44,7 +45,7 @@ export const assignments: Assignment[] = [
       { name: '攣生兄弟 1', url: 'https://studio.tripo3d.ai/3d-model/711043e6-1a58-4a55-af4a-17079393ad51?invite_code=JMQKOF' },
       { name: '攣生兄弟 2', url: 'https://studio.tripo3d.ai/3d-model/db973071-1f96-4b0a-a099-9c9a168a44c5?invite_code=JMQKOF' },
     ],
-    embedUrl: '/twin_stars.png'
+    embedUrl: twinStarsImg
   },
   {
     id: 3,
