@@ -1,6 +1,6 @@
 import { Ship, Anchor, MapPin, Navigation as NavIcon, Languages, FileBadge, MonitorPlay, GraduationCap, Heart, FileText } from 'lucide-react';
 import { motion } from 'motion/react';
-import profileImg from '../assets/IMG_4564.JPG';
+import { getPublicAssetPath } from '../lib/utils';
 
 export function Home() {
   const skills = [
@@ -29,7 +29,7 @@ export function Home() {
           <div className="relative shrink-0">
             <div className="w-24 h-24 sm:w-32 sm:h-32 rounded-full border border-accent/30 p-1.5 bg-[#0a1423]">
               <img 
-                src={profileImg} 
+                src={getPublicAssetPath("profile.jpg")} 
                 alt="彭奕翔" 
                 className="w-full h-full rounded-full object-cover filter brightness-110 contrast-110"
               />
