@@ -3,6 +3,7 @@ import { assignments } from '../data/assignments';
 import { motion } from 'motion/react';
 import { ExternalLink, ChevronLeft } from 'lucide-react';
 import { getPublicAssetPath } from '../lib/utils';
+import { PdfViewer } from './PdfViewer';
 
 export function AssignmentDetail() {
   const { id } = useParams();
@@ -60,11 +61,14 @@ export function AssignmentDetail() {
                   alt={assignment.title}
                   className="w-full h-full object-contain"
                 />
+              ) : assignment.embedUrl.endsWith('.pdf') ? (
+                <PdfViewer url={assignment.embedUrl} />
               ) : (
                 <iframe
-                  src={assignment.embedUrl}
+                  src={assignment.embedUrl.startsWith('http') ? assignment.embedUrl : getPublicAssetPath(assignment.embedUrl)}
                   className="w-full h-full border-none"
-                  allow="autoplay"
+                  allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                  allowFullScreen
                 ></iframe>
               )}
             </div>
@@ -114,7 +118,7 @@ export function AssignmentDetail() {
               {assignment.links.map((link, i) => (
                 <a
                   key={i}
-                  href={link.url}
+                  href={link.url.startsWith('http') ? link.url : getPublicAssetPath(link.url)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-between p-3 text-[10px] font-mono tracking-widest text-[#00D1FF] bg-[#00D1FF]/5 

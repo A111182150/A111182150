@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useState } from 'react';
 import { ExternalLink, ChevronRight } from 'lucide-react';
 import { getPublicAssetPath } from '../lib/utils';
+import { PdfViewer } from './PdfViewer';
 
 export function Assignments() {
   const [selectedId, setSelectedId] = useState(assignments[0].id);
@@ -75,11 +76,14 @@ export function Assignments() {
                     alt={selectedAssignment.title}
                     className="w-full h-full object-contain"
                   />
+                ) : selectedAssignment.embedUrl.endsWith('.pdf') ? (
+                  <PdfViewer url={selectedAssignment.embedUrl} />
                 ) : (
                   <iframe
-                    src={selectedAssignment.embedUrl}
+                    src={selectedAssignment.embedUrl.startsWith('http') ? selectedAssignment.embedUrl : getPublicAssetPath(selectedAssignment.embedUrl)}
                     className="w-full h-full border-none"
-                    allow="autoplay"
+                    allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                    allowFullScreen
                   ></iframe>
                 )}
               </div>
@@ -126,7 +130,7 @@ export function Assignments() {
                 {selectedAssignment.links.map((link, i) => (
                   <a
                     key={i}
-                    href={link.url}
+                    href={link.url.startsWith('http') ? link.url : getPublicAssetPath(link.url)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex justify-between items-center p-2.5 text-[10px] font-mono tracking-widest text-accent bg-accent/5 hover:bg-accent hover:text-[#05070A] border border-accent/10 rounded-sm transition-all"
